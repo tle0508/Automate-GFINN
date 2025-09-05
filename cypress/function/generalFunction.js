@@ -10,4 +10,11 @@ export function goToShop(server,) {
         cy.get('#password').type('0948144040')
         cy.contains('button', 'เข้าสู่ระบบ').click()
     }
+    else if(server == 'uatPromax'){
+        cy.visit('https://dev-remote-gfinn-frontend-uat.vrxjnc.easypanel.host/shop/calculation');
+        cy.get('#username').type('0951385471')
+        cy.get('#password').type('0951385471')
+        cy.contains('button', 'เข้าสู่ระบบ').click()
+    }
+    
 }

@@ -1,4 +1,4 @@
-export function createLoan(prod,dev) { 
+export function createLoan(server) { 
     cy.wait(2000);
     cy.contains('span', 'รายการสินเชื่อ', { timeout: 10000 }).should('be.visible').parents('button').click()
 
@@ -16,7 +16,7 @@ export function createLoan(prod,dev) {
 
     cy.contains('button', 'ถัดไป').click()
 
-    customerInformation();
+    customerInformation(server);
 
     cy.contains('button', 'ถัดไป').click()
 
@@ -27,7 +27,7 @@ export function createLoan(prod,dev) {
     documentList();
 
     cy.contains('button', 'บันทึก').click()
-    cy.contains('button', 'ยืนยันแก้ไขสัญญาสินเชื่อ').click()
+    cy.contains('button', 'ยืนยันการสมัครสินเชื่อ').click()
     
   }
 
@@ -48,7 +48,7 @@ export function createLoan(prod,dev) {
     cy.wait(2000);
   }
 
-  function customerInformation(){
+  function customerInformation(server){
     cy.get('#shop-loan-request-customer-info-form-prefix-select').click();
     cy.get('.p-1').within(() => {
       cy.contains('div', 'นาย').click();
@@ -88,14 +88,23 @@ export function createLoan(prod,dev) {
     });
     cy.get('input[name="googleMapLink"]').type('https://www.google.com/maps/place/14.442033005335867,101.06172437125745');
     
-   
+    
+  if (server === 'uat') {
     cy.get('input[placeholder*="เบอร์หลัก"]').first().type('0911300000');
     cy.contains('button', 'ขอ OTP').click();
     cy.wait(1000);
     cy.get('input[maxlength="6"]').type('998930');
     cy.contains('button', 'ยืนยัน OTP').click();
-    
 
+  } else if (server === 'prod') {
+    cy.get('input[placeholder*="เบอร์หลัก"]').first().type('0951385471');
+    cy.contains('button', 'ขอ OTP').click();
+    cy.wait(15000);
+    cy.contains('button', 'ยืนยัน OTP').click();
+  }
+   
+    
+   
     cy.get('input[placeholder*="เบอร์สำรอง"]').first().type('0951385472');
     cy.get('input[placeholder*="อีเมล"]').first().type('test@gmail.com');
     cy.get('input[name="facebook"]').type('https://www.facebook.com/username');
